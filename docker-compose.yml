@@ -1,0 +1,24 @@
+version: "3.8"
+
+networks:
+  springboot-rest-web-flux-net:
+
+services:
+  mongo_db:
+    image: mongo
+    container_name: mongodb-react
+    networks:
+      springboot-rest-web-flux-net:
+
+  springboot-rest-web-flux-curd:
+    container_name: spring-boot-web-flux-curd-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      MONGO_DB: mongodb://mongodb-react:27017/employee
+    ports:
+      - "8080:8080"
+    networks:
+      springboot-rest-web-flux-net:
+    restart: on-failure
